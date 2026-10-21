@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-
+// for localhost -> "http://localhost:4000/api/......" this is the url
 function App() {
   const [drones, setDrones] = useState([]);
   const [missions, setMissions] = useState([]);
 
   const loadData = () => {
-    fetch("http://localhost:4000/api/drones", { cache: "no-store" })
+    fetch("/api/drones", { cache: "no-store" })
       .then(res => res.json())
       .then(setDrones);
 
-    fetch("http://localhost:4000/api/missions", { cache: "no-store" })
+    fetch("/api/missions", { cache: "no-store" })
       .then(res => res.json())
       .then(setMissions);
   };
@@ -20,7 +20,8 @@ function App() {
  useEffect(() => {
   loadData(); // initial fetch
 
-  const socket = io("http://localhost:4000");
+  // const socket = io("http://localhost:4000"); for local host
+  const socket = io();
 
   socket.on("mission_update", () => {
     loadData();
@@ -36,14 +37,14 @@ function App() {
 
 
   const createMission = async () => {
-    await fetch("http://localhost:4000/api/missions", {
+    await fetch("/api/missions", {
       method: "POST"
     });
     loadData();
   };
 
   const startMission = async (id) => {
-    await fetch(`http://localhost:4000/api/missions/${id}/start`, {
+    await fetch(`/api/missions/${id}/start`, {
       method: "POST"
     });
     loadData();
