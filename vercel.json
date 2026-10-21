@@ -1,8 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "bindings": [
-  { "type": "service", "service": "backend", "format": "url", "env": "BACKEND_URL" }
-],
   "services": {
     "backend": {
       "root": "backend",
